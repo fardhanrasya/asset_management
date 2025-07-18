@@ -7137,3 +7137,34 @@ io.jsonwebtoken.security.SignatureException: JWT signature does not match locall
 2025-07-18 11:37:58 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [AssetCategoryResponse(id=5c07c580-b9c8-474e-84b2-c2bf51e94b2a, name=rog strix, parentId=7cc519c9-bcd (truncated)...]
 2025-07-18 11:37:58 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
 2025-07-18 12:51:34 [HikariPool-2:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=37m8s994ms256µs100ns).
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/asset-categories/5c07c580-b9c8-474e-84b2-c2bf51e94b2a
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/asset-categories/5c07c580-b9c8-474e-84b2-c2bf51e94b2a
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/v1/asset-categories/5c07c580-b9c8-474e-84b2-c2bf51e94b2a", parameters={}
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.fardhan.assetmanagement.controller.AssetCategoryController#getById(UUID)
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        ac1_0.id,
+        ac1_0.created_at,
+        ac1_0.name,
+        ac1_0.parent 
+    from
+        asset_category ac1_0 
+    where
+        ac1_0.id=?
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json, application/yaml]
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [AssetCategoryResponse(id=5c07c580-b9c8-474e-84b2-c2bf51e94b2a, name=rog strix, parentId=7cc519c9-bcd (truncated)...]
+2025-07-18 12:57:07 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-07-18 12:57:18 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/asset-categories/5c07c580-b9c8-474e-84b2-c2bf51e94b2a
