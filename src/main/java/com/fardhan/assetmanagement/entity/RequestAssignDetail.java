@@ -1,4 +1,5 @@
 package com.fardhan.assetmanagement.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,19 +17,19 @@ public class RequestAssignDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     private Request request;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id", referencedColumnName = "id")
     private Asset asset;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_user_id", referencedColumnName = "id")
     private User targetUser;
-    
+
     @Column(name = "date_received")
     private LocalDate dateReceived;
 }

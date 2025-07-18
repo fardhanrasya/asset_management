@@ -1,4 +1,5 @@
 package com.fardhan.assetmanagement.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

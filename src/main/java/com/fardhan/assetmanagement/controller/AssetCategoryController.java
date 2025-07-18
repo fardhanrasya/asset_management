@@ -14,43 +14,47 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AssetCategoryController {
 
-    private final AssetCategoryService assetCategoryService;
+        private final AssetCategoryService assetCategoryService;
 
-    @PostMapping
-    public ResponseEntity<AssetCategoryResponse> create(@RequestBody CreateAssetCategoryRequest request) {
-        AssetCategory assetCategory = assetCategoryService.create(request);
-        AssetCategoryResponse response = AssetCategoryResponse.builder()
-                .id(assetCategory.getId())
-                .name(assetCategory.getName())
-                .parentId(assetCategory.getParent() != null ? assetCategory.getParent().getId() : null)
-                .createdAt(assetCategory.getCreatedAt())
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+        @PostMapping
+        public ResponseEntity<AssetCategoryResponse> create(@RequestBody CreateAssetCategoryRequest request) {
+                AssetCategory assetCategory = assetCategoryService.create(request);
+                AssetCategoryResponse response = AssetCategoryResponse.builder()
+                                .id(assetCategory.getId())
+                                .name(assetCategory.getName())
+                                .parentId(assetCategory.getParent() != null ? assetCategory.getParent().getId() : null)
+                                .createdAt(assetCategory.getCreatedAt())
+                                .build();
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
 
-    @GetMapping
-    public ResponseEntity<java.util.List<AssetCategoryResponse>> getAll() {
-        java.util.List<AssetCategoryResponse> responses = assetCategoryService.findAll().stream()
-                .map(assetCategory -> AssetCategoryResponse.builder()
-                        .id(assetCategory.getId())
-                        .name(assetCategory.getName())
-                        .parentId(assetCategory.getParent() != null ? assetCategory.getParent().getId() : null)
-                        .createdAt(assetCategory.getCreatedAt())
-                        .build())
-                .toList();
-        return ResponseEntity.ok(responses);
-    }
+        @GetMapping
+        public ResponseEntity<java.util.List<AssetCategoryResponse>> getAll() {
+                java.util.List<AssetCategoryResponse> responses = assetCategoryService.findAll().stream()
+                                .map(assetCategory -> AssetCategoryResponse.builder()
+                                                .id(assetCategory.getId())
+                                                .name(assetCategory.getName())
+                                                .parentId(assetCategory.getParent() != null
+                                                                ? assetCategory.getParent().getId()
+                                                                : null)
+                                                .createdAt(assetCategory.getCreatedAt())
+                                                .build())
+                                .toList();
+                return ResponseEntity.ok(responses);
+        }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AssetCategoryResponse> getById(@PathVariable java.util.UUID id) {
-        return assetCategoryService.findById(id)
-                .map(assetCategory -> AssetCategoryResponse.builder()
-                        .id(assetCategory.getId())
-                        .name(assetCategory.getName())
-                        .parentId(assetCategory.getParent() != null ? assetCategory.getParent().getId() : null)
-                        .createdAt(assetCategory.getCreatedAt())
-                        .build())
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+        @GetMapping("/{id}")
+        public ResponseEntity<AssetCategoryResponse> getById(@PathVariable java.util.UUID id) {
+                return assetCategoryService.findById(id)
+                                .map(assetCategory -> AssetCategoryResponse.builder()
+                                                .id(assetCategory.getId())
+                                                .name(assetCategory.getName())
+                                                .parentId(assetCategory.getParent() != null
+                                                                ? assetCategory.getParent().getId()
+                                                                : null)
+                                                .createdAt(assetCategory.getCreatedAt())
+                                                .build())
+                                .map(ResponseEntity::ok)
+                                .orElse(ResponseEntity.notFound().build());
+        }
 }

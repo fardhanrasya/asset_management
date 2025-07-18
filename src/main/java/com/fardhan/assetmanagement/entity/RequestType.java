@@ -13,17 +13,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestType {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
     @Column(nullable = false)
     private String name;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    
+
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Request> requests;
 }
