@@ -19,7 +19,7 @@ public class RequestAssignDetail {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", referencedColumnName = "id")
-    private AssetRequest request;
+    private Request request;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_id", referencedColumnName = "id")

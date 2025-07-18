@@ -43,14 +43,11 @@ public class User {
     private LocalDateTime updatedAt;
     
     // Relationships
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Asset> ownedAssets;
-    
     @OneToMany(mappedBy = "requestor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AssetRequest> assetRequests;
+    private List<Request> requests;
     
-    @OneToMany(mappedBy = "targetUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<RequestAssignDetail> assignedRequests;
+    @OneToMany(mappedBy = "currentHolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Asset> heldAssets;
     
     public enum UserRole {
         HRGA("hrga"),

@@ -19,11 +19,10 @@ public class PurchaseRequestDetail {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id", referencedColumnName = "id")
-    private AssetRequest request;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_option_id", referencedColumnName = "id")
-    private AssetType assetOption;
+    private Request request;
+
+    @Column(name = "model_name", nullable = false)
+    private String modelName;
     
     @Column(nullable = false)
     private Integer quantity;
@@ -32,10 +31,10 @@ public class PurchaseRequestDetail {
     @Column(nullable = false)
     private PurchaseStatus status;
     
-    @Column(name = "estimate_cost", precision = 10, scale = 2)
+    @Column(name = "estimate_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal estimateCost;
     
-    @Column(name = "actual_cost", precision = 10, scale = 2)
+    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal actualCost;
     
     private String provider;
@@ -58,6 +57,6 @@ public class PurchaseRequestDetail {
         
         public String getValue() {
             return value;
-        }
+        } 
     }
 }

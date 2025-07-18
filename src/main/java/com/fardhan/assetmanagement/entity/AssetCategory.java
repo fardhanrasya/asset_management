@@ -34,7 +34,4 @@ public class AssetCategory {
     // Relationships
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AssetCategory> children;
-    
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AssetType> assetTypes;
 }
