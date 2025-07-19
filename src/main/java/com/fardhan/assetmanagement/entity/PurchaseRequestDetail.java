@@ -1,5 +1,6 @@
 package com.fardhan.assetmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,35 +14,34 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class PurchaseRequestDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id", referencedColumnName = "id")
+    @JoinColumn(name = "request_id", nullable = false)
     private Request request;
-
-    @Column(name = "model_name", nullable = false)
-    private String modelName;
-
+    
+    @Column(name = "asset_display_name")
+    private String assetDisplayName;
+    
     @Column(nullable = false)
     private Integer quantity;
-
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PurchaseStatus status;
-
-    @Column(name = "estimate_cost", precision = 10, scale = 2, nullable = false)
+    
+    @Column(name = "estimate_cost", precision = 15, scale = 2)
     private BigDecimal estimateCost;
-
-    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
+    
+    @Column(name = "actual_cost", precision = 15, scale = 2)
     private BigDecimal actualCost;
-
+    
+    @Column
     private String provider;
-
-    @Column(columnDefinition = "TEXT")
-    private String reason;
 
     public enum PurchaseStatus {
         PENDING("PENDING"),

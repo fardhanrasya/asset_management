@@ -1,5 +1,6 @@
 package com.fardhan.assetmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,42 +15,43 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class RepairRequestDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id", referencedColumnName = "id")
+    @JoinColumn(name = "request_id", nullable = false)
     private Request request;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_id", referencedColumnName = "id")
+    @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
-
+    
+    @Column
     private String provider;
+    
+    @Column
     private String treatment;
-
-    @Column(name = "estimate_cost", precision = 10, scale = 2)
+    
+    @Column(name = "estimate_cost", precision = 15, scale = 2)
     private BigDecimal estimateCost;
-
-    @Column(name = "estimate_duration")
-    private Integer estimateDuration;
-
-    @Column(columnDefinition = "TEXT")
-    private String reason;
-
+    
+    @Column(name = "estimate_duration_days")
+    private Integer estimateDurationDays;
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RepairStatus status;
-
+    
     @Column(name = "start_date")
     private LocalDate startDate;
-
+    
     @Column(name = "end_date")
     private LocalDate endDate;
-
-    @Column(name = "actual_cost", precision = 10, scale = 2)
+    
+    @Column(name = "actual_cost", precision = 15, scale = 2)
     private BigDecimal actualCost;
 
     public enum RepairStatus {

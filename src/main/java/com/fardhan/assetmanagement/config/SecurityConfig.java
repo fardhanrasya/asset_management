@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/requests/me").hasRole("KARYAWAN")
+                .requestMatchers("/api/v1/requests/**").hasRole("HRGA")
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(authenticationProvider())

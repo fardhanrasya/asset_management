@@ -1,5 +1,6 @@
 package com.fardhan.assetmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Request {
 
     public enum RequestStatus {
@@ -31,10 +33,6 @@ public class Request {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type", nullable = false)
     private RequestType type;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_id")
-    private Asset asset;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
