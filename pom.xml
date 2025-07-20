@@ -103,12 +103,6 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-		<!-- Mail (optional) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-
 		<!-- OpenAPI Documentation -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
