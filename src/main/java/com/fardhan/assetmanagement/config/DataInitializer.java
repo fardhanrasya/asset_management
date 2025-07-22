@@ -16,7 +16,7 @@ public class DataInitializer {
 
     @PostConstruct
     public void init() {
-        List<String> types = Arrays.asList("ASSET", "REPAIR", "PURCHASE");
+        List<String> types = Arrays.asList("ASSET", "REPAIR", "PURCHASE", "SELF_REPAIR", "ASSIGN");
         for (String type : types) {
             requestTypeRepository.findByNameIgnoreCase(type)
                     .orElseGet(() -> {
