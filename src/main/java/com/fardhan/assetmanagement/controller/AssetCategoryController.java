@@ -7,6 +7,7 @@ import com.fardhan.assetmanagement.service.AssetCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class AssetCategoryController {
         private final AssetCategoryService assetCategoryService;
 
         @PostMapping
+        @PreAuthorize("hasRole('HRGA')")
         public ResponseEntity<AssetCategoryResponse> create(@RequestBody CreateAssetCategoryRequest request) {
                 AssetCategory assetCategory = assetCategoryService.create(request);
                 AssetCategoryResponse response = AssetCategoryResponse.builder()

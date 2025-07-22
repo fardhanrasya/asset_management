@@ -43,7 +43,7 @@ public class RequestAssetController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/status")
+    @PatchMapping("/status")
     @PreAuthorize("hasRole('HRGA')")
     public ResponseEntity<RequestAssetResponse> updateStatus(@RequestBody UpdateRequestStatusRequest request,
             Principal principal) {
