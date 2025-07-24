@@ -1,16 +1,16 @@
 package com.fardhan.assetmanagement.dto.response;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Value
 @Builder
 public class AssetCategoryResponse {
-    private UUID id;
-    private String name;
-    private UUID parentId;
-    private LocalDateTime createdAt;
+    UUID id;
+    String name;
+    UUID parentId;
+    LocalDateTime createdAt;
 }
