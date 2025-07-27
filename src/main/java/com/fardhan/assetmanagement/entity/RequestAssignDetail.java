@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 import java.util.UUID;
 
 // RequestAssignDetail Entity
@@ -32,6 +31,4 @@ public class RequestAssignDetail {
     @JoinColumn(name = "target_user_id", referencedColumnName = "id")
     private User targetUser;
 
-    @Column(name = "date_received")
-    private LocalDate dateReceived;
 }

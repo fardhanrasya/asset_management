@@ -23,7 +23,6 @@ public class Asset {
         UNAVAILABLE,
         AVAILABLE,
         ASSIGNED,
-        DAMAGED
     }
 
     @Id
