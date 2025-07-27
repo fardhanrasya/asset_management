@@ -5,7 +5,8 @@ target/
 !**/src/test/**/target/
 logs/*
 logs
-
+task/*
+task/
 ### STS ###
 .apt_generated
 .classpath
