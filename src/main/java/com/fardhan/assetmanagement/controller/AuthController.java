@@ -3,6 +3,7 @@ package com.fardhan.assetmanagement.controller;
 import com.fardhan.assetmanagement.dto.request.LoginRequest;
 import com.fardhan.assetmanagement.dto.request.RegisterRequest;
 import com.fardhan.assetmanagement.dto.response.AuthResponse;
+import com.fardhan.assetmanagement.dto.response.UserResponse;
 import com.fardhan.assetmanagement.entity.User;
 import com.fardhan.assetmanagement.entity.User.UserRole;
 import com.fardhan.assetmanagement.repository.UserRepository;
@@ -13,6 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import java.util.Optional;
 
@@ -56,5 +59,20 @@ public class AuthController {
                 .authorities("ROLE_" + user.getRole().name())
                 .build());
         return ResponseEntity.ok(new AuthResponse(token));
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponse> response = users.stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole(),
+                        user.getCreatedAt(),
+                        user.getUpdatedAt()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 }
