@@ -20,6 +20,7 @@ public class RepairRequestService {
     private final AssetRepository assetRepository;
     private final UserRepository userRepository;
     private final RequestTypeRepository requestTypeRepository;
+    private final LogActivityService logActivityService;
 
     @Transactional
     public RepairRequestResponse createRepairRequest(CreateRepairRequestRequest request, String userEmail) {
@@ -43,7 +44,10 @@ public class RepairRequestService {
         detail.setEstimateDurationDays(request.getEstimateDurationDays());
         detail.setStatus(RepairRequestDetail.RepairStatus.PENDING);
         repairRequestDetailRepository.save(detail);
-        return toResponse(detail, req, user, asset, type);
+        RepairRequestResponse response = toResponse(detail, req, user, asset, type);
+        logActivityService.log("Repair request for asset '" + asset.getModelName() + "' created by " + user.getName(),
+                user);
+        return response;
     }
 
     public List<RepairRequestResponse> getAllRepairRequests() {
@@ -114,7 +118,8 @@ public class RepairRequestService {
                         if (asset.getTotalMaintenancePrice() == null) {
                             asset.setTotalMaintenancePrice(request.getActualCost());
                         } else {
-                            asset.setTotalMaintenancePrice(asset.getTotalMaintenancePrice().add(request.getActualCost()));
+                            asset.setTotalMaintenancePrice(
+                                    asset.getTotalMaintenancePrice().add(request.getActualCost()));
                         }
                     }
 
@@ -125,6 +130,11 @@ public class RepairRequestService {
             }
         }
         repairRequestDetailRepository.save(detail);
+        String status = detail.getStatus().name();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        logActivityService.log("Repair request for asset '" + asset.getModelName() + "' status updated to '" + status
+                + "' by " + user.getName(), user);
         return toResponse(detail, req, req.getRequestor(), detail.getAsset(), type);
     }
 

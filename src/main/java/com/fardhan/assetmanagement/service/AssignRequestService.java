@@ -22,6 +22,7 @@ public class AssignRequestService {
     private final UserRepository userRepository;
     private final AssetRepository assetRepository;
     private final RequestAssignDetailRepository requestAssignDetailRepository;
+    private final LogActivityService logActivityService;
 
     @Transactional
     public AssignRequestResponse createAssignRequest(CreateAssignRequestRequest createRequest, User currentUser) {
@@ -61,7 +62,10 @@ public class AssignRequestService {
         detail.setTargetUser(targetUser);
         requestAssignDetailRepository.save(detail);
 
-        return buildAssignRequestResponse(request, detail);
+        AssignRequestResponse response = buildAssignRequestResponse(request, detail);
+        logActivityService.log("Assign request for asset '" + asset.getModelName() + "' to user '"
+                + targetUser.getName() + "' created by " + currentUser.getName(), currentUser);
+        return response;
     }
 
     @Transactional(readOnly = true)
@@ -103,7 +107,11 @@ public class AssignRequestService {
             assetRepository.save(asset);
         }
 
-        return buildAssignRequestResponse(request, detail);
+        AssignRequestResponse response = buildAssignRequestResponse(request, detail);
+        String action = accept ? "accepted" : "rejected";
+        logActivityService.log("Assign request for asset '" + detail.getAsset().getModelName() + "' " + action + " by "
+                + currentUser.getName(), currentUser);
+        return response;
     }
 
     private AssignRequestResponse buildAssignRequestResponse(Request request, RequestAssignDetail detail) {

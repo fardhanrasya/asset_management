@@ -20,6 +20,7 @@ public class PurchaseRequestService {
     private final PurchaseRequestDetailRepository purchaseRequestDetailRepository;
     private final UserRepository userRepository;
     private final RequestTypeRepository requestTypeRepository;
+    private final LogActivityService logActivityService;
 
     private static final BigDecimal APPROVAL_LIMIT = new BigDecimal("10000000"); // batas harga hardcoded
 
@@ -49,7 +50,10 @@ public class PurchaseRequestService {
             detail.setStatus(PurchaseRequestDetail.PurchaseStatus.ONPURCHASE);
         }
         purchaseRequestDetailRepository.save(detail);
-        return toResponse(req, detail, user);
+        PurchaseRequestResponse response = toResponse(req, detail, user);
+        logActivityService
+                .log("Purchase request for '" + detail.getAssetDisplayName() + "' created by " + user.getName(), user);
+        return response;
     }
 
     public List<PurchaseRequestResponse> getAll() {
@@ -94,6 +98,10 @@ public class PurchaseRequestService {
         }
         requestRepository.save(req);
         purchaseRequestDetailRepository.save(detail);
+        String action = accepted ? "approved" : "rejected";
+        logActivityService.log(
+                "Purchase request '" + detail.getAssetDisplayName() + "' " + action + " by " + director.getName(),
+                director);
         return toResponse(req, detail, req.getRequestor());
     }
 
@@ -114,6 +122,8 @@ public class PurchaseRequestService {
         detail.setProvider(provider);
         detail.setActualCost(actualCost);
         purchaseRequestDetailRepository.save(detail);
+        logActivityService.log("Purchase request '" + detail.getAssetDisplayName() + "' closed by " + hrga.getName(),
+                hrga);
         return toResponse(req, detail, req.getRequestor());
     }
 

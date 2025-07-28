@@ -8,6 +8,8 @@ import com.fardhan.assetmanagement.repository.AssetCategoryRepository;
 import com.fardhan.assetmanagement.repository.AssetRepository;
 import com.fardhan.assetmanagement.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +19,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AssetService {
     private final AssetRepository assetRepository;
     private final AssetCategoryRepository assetCategoryRepository;
     private final UserRepository userRepository;
-
-    public AssetService(AssetRepository assetRepository, AssetCategoryRepository assetCategoryRepository,
-            UserRepository userRepository) {
-        this.assetRepository = assetRepository;
-        this.assetCategoryRepository = assetCategoryRepository;
-        this.userRepository = userRepository;
-    }
+    private final LogActivityService logActivityService;
 
     @Transactional
     public AssetResponse createAsset(CreateAssetRequest request, UUID userId) {
@@ -44,6 +41,7 @@ public class AssetService {
         asset.setPurchasePrice(request.getPurchasePrice());
         asset.setModelName(request.getModelName());
         asset = assetRepository.save(asset);
+        logActivityService.log("Asset '" + asset.getModelName() + "' added by " + user.getName(), user);
         return toResponse(asset);
     }
 
@@ -77,6 +75,7 @@ public class AssetService {
         Asset asset = assetRepository.findById(assetId)
                 .orElseThrow(() -> new EntityNotFoundException("Asset not found"));
         assetRepository.delete(asset);
+        logActivityService.log("Asset '" + asset.getModelName() + "' deleted by " + user.getName(), user);
     }
 
     @Transactional
@@ -100,6 +99,7 @@ public class AssetService {
             asset.setAssetCategory(category);
         }
         asset = assetRepository.save(asset);
+        logActivityService.log("Asset '" + asset.getModelName() + "' updated by " + user.getName(), user);
         return toResponse(asset);
     }
 
