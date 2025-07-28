@@ -30,10 +30,10 @@ public class RepairRequestDetail {
     private Asset asset;
     
     @Column
-    private String provider;
+    private String provider; //tempat asset di service
     
     @Column
-    private String treatment;
+    private String treatment; //apa yang diservice
     
     @Column(name = "estimate_cost", precision = 15, scale = 2)
     private BigDecimal estimateCost;
@@ -61,7 +61,7 @@ public class RepairRequestDetail {
         CLOSED("closed");
 
         private final String value;
-
+        
         RepairStatus(String value) {
             this.value = value;
         }
